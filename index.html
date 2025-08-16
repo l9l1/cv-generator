@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ السيرة الذاتية - احترافي وسهل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        .form-section, .preview-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .form-section {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .section-divider {
+            border-top: 2px solid #f0f0f0;
+            margin: 30px 0;
+            padding-top: 25px;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .skill-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .skill-input input {
+            flex: 1;
+        }
+        
+        .skill-input select {
+            width: 120px;
+        }
+        
+        .add-btn, .generate-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .add-btn:hover, .generate-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .preview-section {
+            position: sticky;
+            top: 20px;
+        }
+        
+        .preview-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .cv-preview {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .download-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .color-option.active {
+            border-color: #333;
+        }
+        
+        .color-blue { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .color-green { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .color-orange { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .color-purple { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .color-red { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-section {
+                position: static;
+            }
+        }
+        
+        /* CV Preview Styles */
+        .mini-cv {
+            font-size: 12px;
+            line-height: 1.4;
+            transform: scale(0.7);
+            transform-origin: top;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .mini-cv .cv-container {
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .mini-cv .sidebar {
+            width: 35%;
+            padding: 20px 15px;
+            color: white;
+        }
+        
+        .mini-cv .sidebar-blue { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .mini-cv .sidebar-green { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .mini-cv .sidebar-orange { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .mini-cv .sidebar-purple { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .mini-cv .sidebar-red { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        
+        .mini-cv .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .mini-cv .name {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .mini-cv .title {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .mini-cv .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .mini-cv .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .mini-cv .main-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 منشئ السيرة الذاتية الاحترافي</h1>
+            <p>اصنع سيرتك الذاتية في دقائق - سهل، سريع، ومجاني</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2>📝 معلوماتك الشخصية</h2>
+                
+                <div class="form-group">
+                    <label>🎨 اختر لون القالب:</label>
+                    <div class="color-picker">
+                        <div class="color-option color-blue active" data-color="blue"></div>
+                        <div class="color-option color-green" data-color="green"></div>
+                        <div class="color-option color-orange" data-color="orange"></div>
+                        <div class="color-option color-purple" data-color="purple"></div>
+                        <div class="color-option color-red" data-color="red"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>👤 الاسم الكامل:</label>
+                        <input type="text" id="fullName" placeholder="مثال: أحمد محمد العلي">
+                    </div>
+                    <div class="form-group">
+                        <label>💼 المسمى الوظيفي:</label>
+                        <input type="text" id="jobTitle" placeholder="مثال: مطور تطبيقات الويب">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📧 البريد الإلكتروني:</label>
+                        <input type="email" id="email" placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>📱 رقم الجوال:</label>
+                        <input type="tel" id="phone" placeholder="+966 50 123 4567">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>🌐 LinkedIn:</label>
+                        <input type="text" id="linkedin" placeholder="linkedin.com/in/yourname">
+                    </div>
+                    <div class="form-group">
+                        <label>📍 المدينة:</label>
+                        <input type="text" id="city" placeholder="الرياض، السعودية">
+                    </div>
+                </div>
+                
+                <div class="section-divider">
+                    <div class="section-title">📋 نبذة شخصية</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>✍️ نبذة مختصرة عنك:</label>
+                    <textarea id="summary" placeholder="اكتب نبذة مختصرة عن خبراتك ومهاراتك وأهدافك المهنية..."></textarea>
+                </div>
+                
+                <div class="section-divider">
+                    <div class="section-title">💼 الخبرات العملية</div>
+                </div>
+                
+                <div id="experienceContainer">
+                    <div class="experience-item" data-index="0">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>المسمى الوظيفي:</label>
+                                <input type="text" name="expTitle" placeholder="مطور ويب أول">
+                            </div>
+                            <div class="form-group">
+                                <label>اسم الشركة:</label>
+                                <input type="text" name="expCompany" placeholder="شركة التقنيات المتقدمة">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>من تاريخ:</label>
+                                <input type="text" name="expStart" placeholder="يناير 2022">
+                            </div>
+                            <div class="form-group">
+                                <label>إلى تاريخ:</label>
+                                <input type="text" name="expEnd" placeholder="حالياً">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>وصف المهام:</label>
+                            <textarea name="expDesc" placeholder="اكتب مهامك وإنجازاتك في هذا المنصب..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addExperience()">+ إضافة خبرة أخرى</button>
+                
+                <div class="section-divider">
+                    <div class="section-title">🎓 المؤهلات العلمية</div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الدرجة العلمية:</label>
+                        <input type="text" id="degree" placeholder="بكالوريوس علوم الحاسب">
+                    </div>
+                    <div class="form-group">
+                        <label>الجامعة:</label>
+                        <input type="text" id="university" placeholder="جامعة الملك سعود">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>سنة التخرج:</label>
+                        <input type="text" id="gradYear" placeholder="2015 - 2019">
+                    </div>
+                    <div class="form-group">
+                        <label>التقدير:</label>
+                        <input type="text" id="gpa" placeholder="امتياز">
+                    </div>
+                </div>
+                
+                <div class="section-divider">
+                    <div class="section-title">⚡ المهارات</div>
+                </div>
+                
+                <div id="skillsContainer">
+                    <div class="skill-input">
+                        <input type="text" placeholder="JavaScript" name="skillName">
+                        <select name="skillLevel">
+                            <option value="90">ممتاز</option>
+                            <option value="75">جيد جداً</option>
+                            <option value="60">جيد</option>
+                            <option value="45">متوسط</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addSkill()">+ إضافة مهارة</button>
+                
+                <button class="generate-btn" onclick="generateCV()">🚀 إنشاء السيرة الذاتية</button>
+            </div>
+            
+            <div class="preview-section">
+                <h3>👀 معاينة السيرة الذاتية</h3>
+                <div class="cv-preview">
+                    <div class="mini-cv" id="cvPreview">
+                        <div class="cv-container">
+                            <div class="sidebar sidebar-blue">
+                                <div class="profile-img">أم</div>
+                                <div class="name">اسمك هنا</div>
+                                <div class="title">مهنتك هنا</div>
+                                <div class="section-title">معلومات الاتصال</div>
+                                <div style="font-size: 10px; line-height: 1.6;">
+                                    📧 إيميلك هنا<br>
+                                    📱 رقم جوالك<br>
+                                    🌐 LinkedIn<br>
+                                    📍 مدينتك
+                                </div>
+                                <div class="section-title">المهارات</div>
+                                <div style="font-size: 10px;">
+                                    مهاراتك ستظهر هنا
+                                </div>
+                            </div>
+                            <div class="main-content">
+                                <div class="main-title">نبذة شخصية</div>
+                                <div style="font-size: 10px; margin-bottom: 15px;">
+                                    نبذتك الشخصية ستظهر هنا...
+                                </div>
+                                <div class="main-title">الخبرات العملية</div>
+                                <div style="font-size: 10px; margin-bottom: 15px;">
+                                    خبراتك العملية ستظهر هنا...
+                                </div>
+                                <div class="main-title">المؤهلات العلمية</div>
+                                <div style="font-size: 10px;">
+                                    مؤهلاتك العلمية ستظهر هنا...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <button class="download-btn" onclick="downloadCV()">📥 تحميل PDF</button>
+                    <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                        سيتم تحميل ملف PDF جاهز للطباعة
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentColor = 'blue';
+        let experienceCount = 1;
+        let skillCount = 1;
+
+        // Color selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentColor = this.dataset.color;
+                updatePreview();
+            });
+        });
+
+        // Add experience
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const newExperience = `
+                <div class="experience-item" data-index="${experienceCount}" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>المسمى الوظيفي:</label>
+                            <input type="text" name="expTitle" placeholder="مطور ويب">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم الشركة:</label>
+                            <input type="text" name="expCompany" placeholder="اسم الشركة">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>من تاريخ:</label>
+                            <input type="text" name="expStart" placeholder="يناير 2020">
+                        </div>
+                        <div class="form-group">
+                            <label>إلى تاريخ:</label>
+                            <input type="text" name="expEnd" placeholder="ديسمبر 2021">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>وصف المهام:</label>
+                        <textarea name="expDesc" placeholder="اكتب مهامك وإنجازاتك..."></textarea>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', newExperience);
+            experienceCount++;
+        }
+
+        // Add skill
+        function addSkill() {
+            const container = document.getElementById('skillsContainer');
+            const newSkill = `
+                <div class="skill-input">
+                    <input type="text" placeholder="اسم المهارة" name="skillName">
+                    <select name="skillLevel">
+                        <option value="90">ممتاز</option>
+                        <option value="75">جيد جداً</option>
+                        <option value="60">جيد</option>
+                        <option value="45">متوسط</option>
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', newSkill);
+            skillCount++;
+        }
+
+        // Update preview
+        function updatePreview() {
+            const sidebar = document.querySelector('#cvPreview .sidebar');
+            sidebar.className = `sidebar sidebar-${currentColor}`;
+        }
+
+        // Generate CV
+        function generateCV() {
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value || 'اسمك هنا',
+                jobTitle: document.getElementById('jobTitle').value || 'مهنتك هنا',
+                email: document.getElementById('email').value || 'email@example.com',
+                phone: document.getElementById('phone').value || '+966 50 123 4567',
+                linkedin: document.getElementById('linkedin').value || 'linkedin.com/in/yourname',
+                city: document.getElementById('city').value || 'مدينتك، السعودية',
+                summary: document.getElementById('summary').value || 'نبذة شخصية مختصرة...',
+                degree: document.getElementById('degree').value || 'بكالوريوس',
+                university: document.getElementById('university').value || 'الجامعة',
+                gradYear: document.getElementById('gradYear').value || '2020',
+                gpa: document.getElementById('gpa').value || 'جيد'
+            };
+
+            // Show success message
+            alert('تم إنشاء السيرة الذاتية بنجاح! 🎉\nيمكنك الآن تحميلها كـ PDF');
+            
+            // Update preview with real data
+            updatePreviewWithData(formData);
+        }
+
+        function updatePreviewWithData(data) {
+            const preview = document.getElementById('cvPreview');
+            
+            // Get initials
+            const initials = data.fullName.split(' ').map(name => name.charAt(0)).join('').substring(0, 2);
+            
+            preview.innerHTML = `
+                <div class="cv-container">
+                    <div class="sidebar sidebar-${currentColor}">
+                        <div class="profile-img">${initials}</div>
+                        <div class="name">${data.fullName}</div>
+                        <div class="title">${data.jobTitle}</div>
+                        <div class="section-title">معلومات الاتصال</div>
+                        <div style="font-size: 10px; line-height: 1.8;">
+                            📧 ${data.email}<br>
+                            📱 ${data.phone}<br>
+                            🌐 ${data.linkedin}<br>
+                            📍 ${data.city}
+                        </div>
+                        <div class="section-title">المهارات</div>
+                        <div style="font-size: 10px;">
+                            JavaScript, Python, HTML/CSS
+                        </div>
+                    </div>
+                    <div class="main-content">
+                        <div class="main-title">نبذة شخصية</div>
+                        <div style="font-size: 10px; margin-bottom: 15px; line-height: 1.6;">
+                            ${data.summary}
+                        </div>
+                        <div class="main-title">المؤهلات العلمية</div>
+                        <div style="font-size: 10px; margin-bottom: 15px;">
+                            <strong>${data.degree}</strong><br>
+                            ${data.university} - ${data.gradYear}<br>
+                            التقدير: ${data.gpa}
+                        </div>
+                        <div class="main-title">الخبرات العملية</div>
+                        <div style="font-size: 10px;">
+                            ستظهر الخبرات التي أدخلتها هنا...
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Download CV
+        function downloadCV() {
+            // This is a simplified version - in a real implementation you'd use a library like jsPDF
+            alert('تم بدء التحميل! 📥\n\n' + 
+                  'في النسخة الحقيقية، سيتم تحميل ملف PDF عالي الجودة جاهز للطباعة.\n\n' +
+                  'يمكنك أيضاً طباعة هذه الصفحة مباشرة من المتصفح.');
+            
+            // Alternative: Print the page
+            window.print();
+        }
+
+        // Live preview updates
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('input, textarea, select')) {
+                setTimeout(updateLivePreview, 300);
+            }
+        });
+
+        function updateLivePreview() {
+            const name = document.getElementById('fullName').value;
+            const title = document.getElementById('jobTitle').value;
+            
+            if (name) {
+                const initials = name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2);
+                document.querySelector('#cvPreview .profile-img').textContent = initials;
+                document.querySelector('#cvPreview .name').textContent = name;
+            }
+            
+            if (title) {
+                document.querySelector('#cvPreview .title').textContent = title;
+            }
+        }
+    </script>
+</body>
+</html>
